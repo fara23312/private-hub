@@ -7,11 +7,13 @@ const url = `${baseUrl}categories`;
 
 router.get("/", async (req, res) => {
   let fetchedCategories = await fetchCategories(url);
-  res.send(fetchedCategories);
+  let total = fetchedCategories.length;
+  res.json({ total, categories: fetchedCategories });
 });
 
 router.get("/:category", async (req, res) => {
-  res.send({ category: req.params.category });
+  let { category } = req.params;
+  res.redirect(`/videos/${category}`);
 });
 
 module.exports = router;

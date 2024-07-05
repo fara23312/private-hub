@@ -28,16 +28,18 @@ async function fetchCategories(url) {
 function extractCategoriesDetails($) {
   const categories = [];
   $(".catPic").each((index, element) => {
-    const categoryId = $(element).attr("data-category");
-    const categoryType = $(element).find("a").attr("alt");
-    const categoryUrl = baseUrl + $(element).find("a").attr("href");
-    const thumbnailUrl = $(element).find("img").attr("src");
+    const id = $(element).attr("data-category");
+    const type = $(element).find("a").attr("alt");
+    const officialUrl = baseUrl + $(element).find("a").attr("href");
+    const thumbnail = $(element).find("img").attr("src");
+    const endpoint = `/videos/${type.toLowerCase()}`;
 
     const category = {
-      categoryId,
-      categoryType,
-      categoryUrl,
-      thumbnailUrl,
+      id,
+      type,
+      officialUrl,
+      thumbnail,
+      endpoint,
     };
 
     categories.push(category);

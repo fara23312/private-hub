@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { fetchData } = require("../utils/videosScrape");
+const { fetchVideos } = require("../utils/videosScrape");
 
 const baseUrl = "https://www.pornhub.org/";
 const url = `${baseUrl}video/search`;
@@ -36,9 +36,20 @@ router.get("/search", async (req, res) => {
   let options = {
     params: { search },
   };
-  let scrapedData = await fetchData(url, options);
+  let scrapedData = await fetchVideos(url, options);
 
-  res.send(scrapedData);
+  res.json({ data: scrapedData });
+});
+
+router.get("/:category", async (req, res) => {
+  let { category } = req.params;
+  let options = {
+    params: {
+      search: category,
+    },
+  };
+  let scrapedData = await fetchVideos(url, options);
+  res.json({ category, data: scrapedData });
 });
 
 module.exports = router;

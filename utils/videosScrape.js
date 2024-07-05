@@ -6,7 +6,7 @@ const cheerio = require("cheerio");
 const baseUrl = "https://www.pornhub.org/";
 
 // Function to fetch HTML and extract data
-async function fetchData(url, options) {
+async function fetchVideos(url, options) {
   try {
     const response = await axios.get(url, options);
     const htmlString = response.data;
@@ -83,25 +83,25 @@ function extractVideoDetails($) {
     const $element = $(element);
 
     // Extract data from current <li> element
-    const videoId = $element.attr("data-video-id");
+    const id = $element.attr("data-video-id");
     const viewKey = $element.attr("data-video-vkey");
-    const videoUrl = `${baseUrl}view_video.php?viewkey=${viewKey}`;
-    const videoTitle = $element.find(".title a").attr("title");
-    const thumbnailUrl = $element.find(".js-linkVideoThumb img").attr("src");
-    const videoDuration = $element.find(".duration").text();
-    const viewsCount = $element.find(".views var").text();
-    const uploaderUsername = $element.find(".usernameWrap a").text();
+    const officialUrl = `${baseUrl}view_video.php?viewkey=${viewKey}`;
+    const title = $element.find(".title a").attr("title");
+    const thumbnail = $element.find(".js-linkVideoThumb img").attr("src");
+    const duration = $element.find(".duration").text();
+    const views = $element.find(".views var").text();
+    const model = $element.find(".usernameWrap a").text();
 
     // Construct an object with extracted data and push to list
     const videoDetails = {
-      videoId,
+      id,
       viewKey,
-      videoUrl,
-      videoTitle,
-      thumbnailUrl,
-      videoDuration,
-      viewsCount,
-      uploaderUsername,
+      officialUrl,
+      title,
+      thumbnail,
+      duration,
+      views,
+      model,
     };
     videoDetailsList.push(videoDetails);
   });
@@ -110,5 +110,5 @@ function extractVideoDetails($) {
 }
 
 module.exports = {
-  fetchData,
+  fetchVideos,
 };
